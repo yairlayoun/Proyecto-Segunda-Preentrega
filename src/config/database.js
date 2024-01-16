@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 mongoose.connect('mongodb+srv://YairLayoun:coderhouse@ecommerce.yldejct.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  // useCreateIndex: true,
 });
 
 const db = mongoose.connection;

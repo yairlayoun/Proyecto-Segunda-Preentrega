@@ -9,6 +9,8 @@ import { Server } from "socket.io";
 import __dirname from './utils.js';
 import { fileURLToPath } from 'url';
 import { db } from './config/database.js';
+import session from 'express-session';
+import MongoDBStore from 'connect-mongodb-session';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -25,6 +27,23 @@ app.engine('handlebars', handlebars.engine());
 app.set("views", `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
+
+// Configuración de sesiones
+const MongoDBStoreSession = MongoDBStore(session);
+
+const store = new MongoDBStoreSession({
+    uri: 'mongodb://localhost:27017/tu-base-de-datos',
+    collection: 'sessions',
+  });
+  
+  app.use(
+    session({
+      secret: 'tu-secreto',
+      resave: false,
+      saveUninitialized: false,
+      store: store,
+    })
+  );
 
 // Configuración de la carpeta public
 app.use(express.static(__dirname + "/public"));
